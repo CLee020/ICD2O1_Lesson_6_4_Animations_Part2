@@ -1,4 +1,5 @@
 import pygame
+import random
 
 # Initialize the game engine
 pygame.init()
@@ -24,6 +25,18 @@ white = (255, 255, 255)
 black = (0, 0, 0)
 light_blue = (137, 207, 240)
 
+# Create an empty list
+snow_list = []
+
+# Create 50 random points
+for i in range(100):
+	# Create a random x and y coordinate between 0 and the width/height
+    x = random.randrange(WIDTH + 1)
+    y = random.randrange(HEIGHT + 1)
+
+    # Add each point to the snow_list
+    snow_list.append([x, y])
+
 # ---------------------------
 
 # ---------------------------
@@ -42,10 +55,20 @@ while running:
 
     # ----- GAME STATE UPDATES -----
     # All game math and comparisons happen here
-
-
+   # Update the location of each snowflake
+    for item in snow_list:
+      item[1] += 2
+      item[0] += 3
+      if item[1] > HEIGHT:
+         item[1] = 0
+         item[0] = random.randrange(WIDTH + 1)
     # ----- DRAWING -----
     screen.fill(light_blue)  # always the first drawing command
+
+   # Draw a snowflake at each random point from snow_list
+    for item in snow_list:
+       pygame.draw.circle(screen, white, item, 2)
+
 
     # Must be the last two lines of the game loop
     pygame.display.flip()
